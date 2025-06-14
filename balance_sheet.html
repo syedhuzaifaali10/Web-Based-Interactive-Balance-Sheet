@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balance Sheet - NovaTech Enterprises</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .selected-row { background-color: #fde68a; }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-5xl mx-auto bg-white shadow-xl rounded-2xl p-8 my-10">
+
+    <!-- Headings -->
+    <div class="flex flex-col items-center justify-center mb-8">
+      <h1 class="text-3xl font-bold text-center mb-2 hover:bg-yellow-100 cursor-text" contenteditable="true">XYZ COMPANY</h1>
+      <h2 class="text-xl text-center font-semibold mb-2 hover:bg-yellow-100 cursor-text" contenteditable="true">Balance Sheet</h2>
+      <h3 class="text-center text-sm text-gray-600 hover:bg-yellow-100 cursor-text" contenteditable="true">Prepared by: HUZAIFA ALI & LAIBA ISRAR| As of 31st December 2024</h3>
+    </div>
+
+    <!-- Assets Section -->
+    <section class="mb-8">
+      <h3 class="text-lg font-semibold text-blue-700 mb-2">Assets</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Current Assets -->
+        <div>
+          <h4 class="font-medium text-blue-600 mb-1">Current Assets</h4>
+          <table class="w-full text-sm border rounded-lg overflow-hidden" id="currentAssetsTable">
+            <thead class="bg-blue-100">
+              <tr><th class="p-2 border">Asset</th><th class="p-2 border">Amount (PKR)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border">
+                  <input list="currentAssetOptions" value="Cash" class="w-full p-1">
+                </td>
+                <td class="border">
+                  <input type="number" class="asset current-asset w-full p-1" value="0">
+                </td>
+              </tr>
+              <tr>
+                <td class="border">
+                  <input list="currentAssetOptions" value="Accounts Receivable" class="w-full p-1">
+                </td>
+                <td class="border">
+                  <input type="number" class="asset current-asset w-full p-1" value="0">
+                </td>
+              </tr>
+              <tr>
+                <td class="border">
+                  <input list="currentAssetOptions" value="Inventory" class="w-full p-1">
+                </td>
+                <td class="border">
+                  <input type="number" class="asset current-asset w-full p-1" value="0">
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="bg-blue-50 font-semibold">
+              <tr><td class="border p-2" colspan="1">Total Current Assets</td><td class="border p-2" id="totalCurrentAssets">0</td></tr>
+            </tfoot>
+          </table>
+          <button class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 mt-2 rounded" onclick="addRow('currentAssetsTable', 'asset current-asset', 'currentAssetOptions')">+ Add</button>
+          <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 mt-2 rounded ml-2" onclick="removeSelectedRow('currentAssetsTable')">− Remove</button>
+        </div>
+
+        <!-- Non-Current Assets -->
+        <div>
+          <h4 class="font-medium text-blue-600 mb-1">Non-Current Assets</h4>
+          <table class="w-full text-sm border rounded-lg overflow-hidden" id="nonCurrentAssetsTable">
+            <thead class="bg-blue-100">
+              <tr><th class="p-2 border">Asset</th><th class="p-2 border">Amount (PKR)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="border"><input list="nonCurrentAssetOptions" value="Land" class="w-full p-1"></td><td class="border"><input type="number" class="asset non-current-asset w-full p-1" value="0"></td></tr>
+              <tr><td class="border"><input list="nonCurrentAssetOptions" value="Buildings" class="w-full p-1"></td><td class="border"><input type="number" class="asset non-current-asset w-full p-1" value="0"></td></tr>
+            </tbody>
+            <tfoot class="bg-blue-50 font-semibold">
+              <tr><td class="border p-2">Total Non-Current Assets</td><td class="border p-2" id="totalNonCurrentAssets">0</td></tr>
+            </tfoot>
+          </table>
+          <button class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 mt-2 rounded" onclick="addRow('nonCurrentAssetsTable', 'asset non-current-asset', 'nonCurrentAssetOptions')">+ Add</button>
+          <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 mt-2 rounded ml-2" onclick="removeSelectedRow('nonCurrentAssetsTable')">− Remove</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Total Assets -->
+    <div class="text-right text-lg font-semibold text-blue-700 mb-8">
+      Total Assets: <span id="totalAssets">0</span> PKR
+    </div>
+
+    <!-- Liabilities -->
+    <section class="mb-8">
+      <h3 class="text-lg font-semibold text-red-700 mb-2">Liabilities</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Current Liabilities -->
+        <div>
+          <h4 class="font-medium text-red-600 mb-1">Current Liabilities</h4>
+          <table class="w-full text-sm border rounded-lg overflow-hidden" id="currentLiabilitiesTable">
+            <thead class="bg-red-100">
+              <tr><th class="p-2 border">Liability</th><th class="p-2 border">Amount (PKR)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="border"><input list="currentLiabilityOptions" value="Accounts Payable" class="w-full p-1"></td><td class="border"><input type="number" class="liability current-liability w-full p-1" value="0"></td></tr>
+            </tbody>
+            <tfoot class="bg-red-50 font-semibold">
+              <tr><td class="border p-2">Total Current Liabilities</td><td class="border p-2" id="totalCurrentLiabilities">0</td></tr>
+            </tfoot>
+          </table>
+          <button class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 mt-2 rounded" onclick="addRow('currentLiabilitiesTable', 'liability current-liability', 'currentLiabilityOptions')">+ Add</button>
+          <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 mt-2 rounded ml-2" onclick="removeSelectedRow('currentLiabilitiesTable')">− Remove</button>
+        </div>
+
+        <!-- Non-Current Liabilities -->
+        <div>
+          <h4 class="font-medium text-red-600 mb-1">Non-Current Liabilities</h4>
+          <table class="w-full text-sm border rounded-lg overflow-hidden" id="nonCurrentLiabilitiesTable">
+            <thead class="bg-red-100">
+              <tr><th class="p-2 border">Liability</th><th class="p-2 border">Amount (PKR)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="border"><input list="nonCurrentLiabilityOptions" value="Long-term Loan" class="w-full p-1"></td><td class="border"><input type="number" class="liability non-current-liability w-full p-1" value="0"></td></tr>
+            </tbody>
+            <tfoot class="bg-red-50 font-semibold">
+              <tr><td class="border p-2">Total Non-Current Liabilities</td><td class="border p-2" id="totalNonCurrentLiabilities">0</td></tr>
+            </tfoot>
+          </table>
+          <button class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 mt-2 rounded" onclick="addRow('nonCurrentLiabilitiesTable', 'liability non-current-liability', 'nonCurrentLiabilityOptions')">+ Add</button>
+          <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 mt-2 rounded ml-2" onclick="removeSelectedRow('nonCurrentLiabilitiesTable')">− Remove</button>
+        </div>
+      </div>
+    </section>
+    <div class="text-right text-lg font-semibold text-red-700 mb-4">
+      Total Liabilities: <span id="totalLiabilities">0</span> PKR
+    </div>
+
+    <!-- Equity -->
+    <section class="mb-6">
+      <h3 class="text-lg font-semibold text-green-700 mb-2">Owner's Equity</h3>
+      <table class="w-full text-sm border rounded-lg overflow-hidden" id="equityTable">
+        <thead class="bg-green-100">
+          <tr><th class="p-2 border">Equity</th><th class="p-2 border">Amount (PKR)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="border"><input list="equityOptions" value="Owner's Capital" class="w-full p-1"></td><td class="border"><input type="number" class="equity w-full p-1" value="0"></td></tr>
+        </tbody>
+        <tfoot class="bg-green-50 font-semibold">
+          <tr><td class="border p-2">Total Equity</td><td class="border p-2" id="totalEquity">0</td></tr>
+        </tfoot>
+      </table>
+      <button class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 mt-2 rounded" onclick="addRow('equityTable', 'equity', 'equityOptions')">+ Add</button>
+      <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 mt-2 rounded ml-2" onclick="removeSelectedRow('equityTable')">− Remove</button>
+    </section>
+
+    <!-- Final Totals -->
+    <div class="text-right text-lg font-semibold text-red-700 mb-4">
+      Total Liabilities + Equity: <span id="totalLiabilitiesAndEquity">0</span> PKR
+    </div>
+    <div class="text-center text-lg font-semibold mt-6" id="balanceStatus">Balance Sheet Not Balanced</div>
+
+    <div class="mt-6 text-center">
+      <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded" onclick="window.print()">Print Balance Sheet</button>
+    </div>
+  </div>
+
+  <!-- Dropdown Options -->
+  <datalist id="currentAssetOptions">
+    <option value="Cash">
+    <option value="Accounts Receivable">
+    <option value="Inventory">
+    <option value="Prepaid Expenses">
+    <option value="Marketable Securities">
+  </datalist>
+
+  <datalist id="nonCurrentAssetOptions">
+    <option value="Land">
+    <option value="Buildings">
+    <option value="Equipment">
+    <option value="Vehicles">
+    <option value="Furniture">
+  </datalist>
+
+  <datalist id="currentLiabilityOptions">
+    <option value="Accounts Payable">
+    <option value="Short-term Loans">
+    <option value="Accrued Expenses">
+    <option value="Taxes Payable">
+  </datalist>
+
+  <datalist id="nonCurrentLiabilityOptions">
+    <option value="Long-term Loan">
+    <option value="Mortgage Payable">
+    <option value="Deferred Tax Liabilities">
+  </datalist>
+
+  <datalist id="equityOptions">
+    <option value="Owner's Capital">
+    <option value="Retained Earnings">
+    <option value="Contributed Capital">
+  </datalist>
+
+  <!-- Scripts -->
+  <script>
+    function calculateTotals() {
+      const sum = sel => [...document.querySelectorAll(sel)].reduce((a,b)=>a+ +b.value,0);
+      const set = (id, val) => document.getElementById(id).textContent = val.toLocaleString();
+
+      const ca = sum('.current-asset');
+      const nca = sum('.non-current-asset');
+      const cl = sum('.current-liability');
+      const ncl = sum('.non-current-liability');
+      const eq = sum('.equity');
+
+      const assetsTotal = ca + nca;
+      const liabilitiesTotal = cl + ncl;
+      const equityTotal = eq;
+      const totalLiabilitiesAndEquity = liabilitiesTotal + equityTotal;
+
+      set('totalCurrentAssets', ca);
+      set('totalNonCurrentAssets', nca);
+      set('totalAssets', assetsTotal);
+      set('totalCurrentLiabilities', cl);
+      set('totalNonCurrentLiabilities', ncl);
+      set('totalLiabilities', liabilitiesTotal);
+      set('totalEquity', equityTotal);
+      set('totalLiabilitiesAndEquity', totalLiabilitiesAndEquity);
+
+      const status = document.getElementById('balanceStatus');
+      if (assetsTotal === totalLiabilitiesAndEquity) {
+        status.textContent = 'Balance Sheet is Balanced ✔️';
+        status.className = 'text-center text-lg font-semibold text-green-600';
+      } else {
+        status.textContent = 'Balance Sheet Not Balanced';
+        status.className = 'text-center text-lg font-semibold text-red-600';
+      }
+    }
+
+    function addRow(tableId, inputClass, listId) {
+      const row = `
+        <tr>
+          <td class="border">
+            <input list="${listId}" value="New Item" class="w-full p-1">
+          </td>
+          <td class="border">
+            <input type="number" class="${inputClass} w-full p-1" value="0">
+          </td>
+        </tr>`;
+      document.querySelector(`#${tableId} tbody`).insertAdjacentHTML('beforeend', row);
+      document.querySelectorAll(`#${tableId} tbody input[type=number]`).forEach(i => i.oninput = calculateTotals);
+      enableRowSelection(tableId);
+    }
+
+    function removeSelectedRow(tableId) {
+      const selected = document.querySelector(`#${tableId} tbody tr.selected-row`);
+      if (selected) {
+        selected.remove();
+        calculateTotals();
+      } else {
+        alert('Please select a row to remove.');
+      }
+    }
+
+    function enableRowSelection(tableId) {
+      const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+      rows.forEach(row => {
+        row.onclick = () => {
+          rows.forEach(r => r.classList.remove('selected-row'));
+          row.classList.add('selected-row');
+        };
+      });
+    }
+
+    document.querySelectorAll('input[type=number]').forEach(i => i.oninput = calculateTotals);
+
+    window.onload = function () {
+      calculateTotals();
+      ['currentAssetsTable','nonCurrentAssetsTable','currentLiabilitiesTable','nonCurrentLiabilitiesTable','equityTable'].forEach(enableRowSelection);
+    };
+  </script>
+</body>
+</html>
